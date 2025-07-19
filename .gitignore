@@ -12,7 +12,6 @@
 # next.js
 /.next/
 /out/
-next-env.d.ts
 
 # production
 /build
@@ -28,41 +27,6 @@ yarn-error.log*
 
 # local env files
 .env*.local
-.env
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS files
-Thumbs.db
-
-# Cache
-.cache/
-.eslintcache
-
-# Development and test files
-dev-test.js
-test-*.js
-monitor.js
-install-*.js
-install-*.bat
-pre-deployment-check.js
-
-# Status documentation (optional - remove if you want to include)
-SUCCESS.md
-WORKING_STATE_BACKUP.md
-ALL_ERRORS_FIXED_COMPLETE.md
-BUILD_SUCCESS.md
-FINAL_STATUS.md
 
 # vercel
 .vercel
