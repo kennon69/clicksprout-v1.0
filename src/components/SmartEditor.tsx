@@ -359,7 +359,7 @@ export default function SmartEditor({
                     value={content.hashtags.join(' ')}
                     onChange={(e) => handleContentChange('hashtags', e.target.value)}
                     placeholder="#viral #trending #innovation"
-                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 mobile-text-base tap-target"
                   />
                 </div>
 
@@ -369,7 +369,7 @@ export default function SmartEditor({
                   <select
                     value={content.platform}
                     onChange={(e) => handleContentChange('platform', e.target.value)}
-                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-white focus:outline-none focus:border-blue-500 mobile-text-base tap-target"
                   >
                     <option value="general">General</option>
                     <option value="pinterest">Pinterest</option>
@@ -385,19 +385,19 @@ export default function SmartEditor({
           </div>
 
           {/* Preview Panel */}
-          <div className="lg:col-span-1">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6">
+          <div className="lg:col-span-1 order-first lg:order-last">
+            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-white">Preview</h3>
-                <span className="text-sm text-gray-400 capitalize">{content.platform}</span>
+                <h3 className="text-base sm:text-lg font-semibold text-white">Preview</h3>
+                <span className="text-xs sm:text-sm text-gray-400 capitalize">{content.platform}</span>
               </div>
               
               <div className="space-y-4">
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-white/5">
-                  <h4 className="font-bold text-white mb-2 line-clamp-2">
+                <div className="bg-slate-800/50 rounded-lg p-3 sm:p-4 border border-white/5">
+                  <h4 className="font-bold text-white mb-2 text-sm sm:text-base line-clamp-2">
                     {content.headline || 'Your headline will appear here...'}
                   </h4>
-                  <p className="text-gray-300 text-sm mb-3 line-clamp-4">
+                  <p className="text-gray-300 text-xs sm:text-sm mb-3 line-clamp-3 sm:line-clamp-4">
                     {content.description || 'Your description will appear here...'}
                   </p>
                   <div className="flex flex-wrap gap-1">
@@ -415,7 +415,7 @@ export default function SmartEditor({
                 <div className="text-center">
                   <Button
                     onClick={() => setIsAIAssistantVisible(true)}
-                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+                    className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 tap-target"
                   >
                     <Bot className="w-4 h-4 mr-2" />
                     Get AI Help
@@ -428,24 +428,24 @@ export default function SmartEditor({
 
         {/* Optimization Result Modal */}
         {showOptimizationResult && optimizationResult && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-slate-900 border border-white/10 rounded-2xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+            <div className="bg-slate-900 border border-white/10 rounded-2xl p-4 sm:p-6 max-w-2xl w-full max-h-[90vh] sm:max-h-[80vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-white">AI Optimization Results</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-white">AI Optimization Results</h3>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowOptimizationResult(false)}
-                  className="text-gray-400 hover:text-white"
+                  className="text-gray-400 hover:text-white tap-target"
                 >
                   <X className="w-4 h-4" />
                 </Button>
               </div>
               
               <div className="space-y-4">
-                <div className="bg-slate-800/50 rounded-lg p-4">
-                  <h4 className="font-medium text-white mb-2">Optimized Content</h4>
-                  <p className="text-gray-300 text-sm">{optimizationResult.optimizedContent}</p>
+                <div className="bg-slate-800/50 rounded-lg p-3 sm:p-4">
+                  <h4 className="font-medium text-white mb-2 text-sm sm:text-base">Optimized Content</h4>
+                  <p className="text-gray-300 text-xs sm:text-sm">{optimizationResult.optimizedContent}</p>
                 </div>
                 
                 <div className="bg-slate-800/50 rounded-lg p-4">
