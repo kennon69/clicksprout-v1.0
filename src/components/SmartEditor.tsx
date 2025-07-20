@@ -263,11 +263,11 @@ export default function SmartEditor({
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Editor Panel */}
           <div className="lg:col-span-2">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6">
-              <div className="space-y-6">
+            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-6">
+              <div className="space-y-4 sm:space-y-6">
                 {/* Headline */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
@@ -295,7 +295,7 @@ export default function SmartEditor({
                     value={content.headline}
                     onChange={(e) => handleContentChange('headline', e.target.value)}
                     placeholder="Enter your viral headline..."
-                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 resize-none overflow-hidden"
+                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 resize-none overflow-hidden mobile-text-base"
                     maxLength={100}
                   />
                 </div>
@@ -327,7 +327,7 @@ export default function SmartEditor({
                     value={content.description}
                     onChange={(e) => handleContentChange('description', e.target.value)}
                     placeholder="Describe your content in detail..."
-                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 resize-none overflow-hidden min-h-[120px]"
+                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 resize-none overflow-hidden min-h-[100px] sm:min-h-[120px] mobile-text-base"
                     maxLength={500}
                   />
                 </div>

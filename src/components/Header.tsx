@@ -85,7 +85,7 @@ export default function Header({ onMenuToggle, showActionButtons = false }: Head
                   </div>
                 )}
               </div>
-              <span className="text-xl font-bold text-gray-900 dark:text-white">ClickSprout</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">ClickSprout</span>
             </div>
           </div>
 
@@ -99,12 +99,12 @@ export default function Header({ onMenuToggle, showActionButtons = false }: Head
           {/* Actions - Only show when showActionButtons is true */}
           <div className="flex items-center">
             {/* Dark Mode Toggle - always show */}
-            <div className={`${showActionButtons ? 'mr-8' : 'mr-0'} flex-shrink-0`}>
+            <div className={`${showActionButtons ? 'mr-4 sm:mr-8' : 'mr-0'} flex-shrink-0`}>
               <button
                 onClick={toggleTheme}
                 onMouseDown={(e) => e.stopPropagation()}
                 onMouseUp={(e) => e.stopPropagation()}
-                className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors tap-target"
                 aria-label="Toggle theme"
                 type="button"
                 data-button="theme-toggle"
@@ -123,13 +123,14 @@ export default function Header({ onMenuToggle, showActionButtons = false }: Head
 
             {/* Show action buttons only when showActionButtons is true */}
             {showActionButtons && (
-              <>
+              <div className="flex items-center space-x-2 sm:space-x-4">
                 {/* Dashboard Button */}
-                <div className="mr-6 flex-shrink-0">
+                <div className="hidden sm:block flex-shrink-0">
                   <Button 
                     variant="ghost" 
                     size="sm"
                     onClick={handleDashboard}
+                    className="tap-target"
                   >
                     Dashboard
                   </Button>
@@ -141,14 +142,15 @@ export default function Header({ onMenuToggle, showActionButtons = false }: Head
                     onClick={handleGetStarted}
                     onMouseDown={(e) => e.stopPropagation()}
                     onMouseUp={(e) => e.stopPropagation()}
-                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 h-9 px-4 py-2"
+                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 h-9 px-3 sm:px-4 py-2 tap-target no-select"
                     type="button"
                     data-button="get-started"
                   >
-                    Get Started
+                    <span className="hidden sm:inline">Get Started</span>
+                    <span className="sm:hidden">Start</span>
                   </button>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
