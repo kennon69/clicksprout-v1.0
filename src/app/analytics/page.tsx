@@ -225,7 +225,7 @@ export default function AnalyticsPage() {
 
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case 'campaign':
+      case 'content':
         return <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
       case 'click':
         return <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -238,7 +238,7 @@ export default function AnalyticsPage() {
     }
   }
 
-  if (campaigns.length === 0) {
+  if (contentItems.length === 0) {
     return (
       <DashboardLayout>
         <div className="p-8">
@@ -247,12 +247,12 @@ export default function AnalyticsPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">No Analytics Data</h1>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">Create some campaigns to start tracking your performance metrics</p>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">Create some content to start tracking your performance metrics</p>
             <button 
-              onClick={() => window.location.href = '/campaigns'}
+              onClick={() => window.location.href = '/submit'}
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all"
             >
-              Create Your First Campaign
+              Create Your First Content
             </button>
           </div>
         </div>
