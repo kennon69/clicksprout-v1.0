@@ -383,7 +383,7 @@ export default function AnalyticsPage() {
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                        {activity.type === 'campaign' ? '1 campaign' : `${activity.value} ${activity.type}${activity.value !== 1 ? 's' : ''}`}
+                        {activity.type === 'content' ? '1 content' : `${activity.value} ${activity.type}${activity.value !== 1 ? 's' : ''}`}
                       </p>
                     </div>
                   </div>
