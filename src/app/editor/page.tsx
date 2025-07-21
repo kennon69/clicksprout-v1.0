@@ -49,7 +49,6 @@ export default function EditorPage() {
             videos: [],
             hashtags: Array.isArray(parsed.hashtags) ? parsed.hashtags : [],
             createdAt: new Date().toISOString(),
-            // performance: parsed.performance
           }
 
           setContentData(formattedContent)

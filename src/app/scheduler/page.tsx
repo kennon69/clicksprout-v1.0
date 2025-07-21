@@ -584,15 +584,15 @@ export default function SchedulerPage() {
                 </button>
 
                 <button 
-                  onClick={() => router.push('/campaigns')}
+                  onClick={() => router.push('/analytics')}
                   className="flex items-center p-3 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white rounded-lg shadow hover:shadow-md transition-all"
                 >
                   <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                   <div className="text-left">
-                    <p className="font-medium">Manage Campaigns</p>
-                    <p className="text-sm text-green-100">View all your campaigns</p>
+                    <p className="font-medium">View Analytics</p>
+                    <p className="text-sm text-green-100">Track your content performance</p>
                   </div>
                 </button>
               </div>

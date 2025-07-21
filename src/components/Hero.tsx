@@ -134,7 +134,7 @@ export default function Hero() {
 
           {/* Trust Indicators */}
           <div className="text-sm text-gray-500 dark:text-gray-400 mb-8">
-            <p className="mb-2">✨ No payment plans required • 🚀 Free AI ad campaigns • 📈 Unlimited backlinks</p>
+            <p className="mb-2">✨ No payment plans required • 🚀 Free AI content generation • 📈 Unlimited backlinks</p>
             <p>Trusted by 10,000+ marketers and entrepreneurs</p>
           </div>
 
@@ -154,15 +154,15 @@ export default function Hero() {
             </button>
 
             <button
-              onClick={() => handleQuickAction('/campaigns', 'Campaigns')}
+              onClick={() => handleQuickAction('/analytics', 'Analytics')}
               className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-white/20 dark:border-gray-700/20 rounded-lg p-4 shadow-lg hover:shadow-xl transition-all duration-200 text-left group"
             >
               <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h4 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">Campaigns</h4>
+              <h4 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">Analytics</h4>
               <p className="text-xs text-gray-600 dark:text-gray-300">View performance</p>
             </button>
 

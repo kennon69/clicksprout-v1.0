@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react'
 import DashboardLayout from '@/components/DashboardLayout'
 
-interface Campaign {
+interface ContentItem {
   id: string
-  name: string
-  links: any[]
+  title: string
+  url: string
   platforms: string[]
   scheduledTime?: string
   posted: boolean
@@ -20,15 +20,15 @@ interface Campaign {
 }
 
 interface AnalyticsData {
-  totalCampaigns: number
+  totalContent: number
   totalPosts: number
   totalViews: number
   totalClicks: number
   totalShares: number
   totalConversions: number
   conversionRate: number
-  topPerformingCampaigns: Array<{
-    name: string
+  topPerformingContent: Array<{
+    title: string
     platform: string
     engagement: number
     color: string
@@ -41,8 +41,8 @@ interface AnalyticsData {
   }>
   recentActivity: Array<{
     id: string
-    type: 'campaign' | 'click' | 'share' | 'conversion'
-    campaignName: string
+    type: 'content' | 'click' | 'share' | 'conversion'
+    contentTitle: string
     platform: string
     timestamp: string
     value: number
@@ -51,30 +51,30 @@ interface AnalyticsData {
 
 export default function AnalyticsPage() {
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData>({
-    totalCampaigns: 0,
+    totalContent: 0,
     totalPosts: 0,
     totalViews: 0,
     totalClicks: 0,
     totalShares: 0,
     totalConversions: 0,
     conversionRate: 0,
-    topPerformingCampaigns: [],
+    topPerformingContent: [],
     topPerformingPlatforms: [],
     recentActivity: []
   })
 
   const [timeRange, setTimeRange] = useState('7d')
-  const [campaigns, setCampaigns] = useState<Campaign[]>([])
+  const [contentItems, setContentItems] = useState<ContentItem[]>([])
 
   useEffect(() => {
-    // Load campaigns from localStorage
-    const savedCampaigns = localStorage.getItem('campaigns')
-    if (savedCampaigns) {
-      const campaignsData: Campaign[] = JSON.parse(savedCampaigns)
-      setCampaigns(campaignsData)
+    // Load content from localStorage
+    const savedContent = localStorage.getItem('currentContent')
+    if (savedContent) {
+      const contentData: ContentItem[] = [JSON.parse(savedContent)]
+      setContentItems(contentData)
       
-      // Calculate analytics from real campaign data
-      const analytics = calculateAnalytics(campaignsData)
+      // Calculate analytics from real content data
+      const analytics = calculateAnalytics(contentData)
       setAnalyticsData(analytics)
     }
   }, [timeRange])

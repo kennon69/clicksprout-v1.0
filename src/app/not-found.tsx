@@ -43,8 +43,8 @@ export default function NotFound() {
               Quick Links:
             </p>
             <div className="grid grid-cols-2 gap-2 text-sm">
-              <Link href="/campaigns" className="text-blue-600 dark:text-blue-400 hover:underline">
-                Campaigns
+              <Link href="/analytics" className="text-blue-600 dark:text-blue-400 hover:underline">
+                Analytics
               </Link>
               <Link href="/scheduler" className="text-blue-600 dark:text-blue-400 hover:underline">
                 Scheduler

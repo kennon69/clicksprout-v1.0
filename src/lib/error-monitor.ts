@@ -76,7 +76,7 @@ export class ErrorMonitor {
 
     // Check API endpoints
     try {
-      const response = await fetch('/api/campaigns')
+      const response = await fetch('/api/analytics')
       if (!response.ok) {
         issues.push('API routes not responding properly')
         recommendations.push('Check API route implementations')
