@@ -79,52 +79,52 @@ export default function AnalyticsPage() {
     }
   }, [timeRange])
 
-  const calculateAnalytics = (campaignsData: Campaign[]): AnalyticsData => {
-    if (campaignsData.length === 0) {
+  const calculateAnalytics = (contentData: ContentItem[]): AnalyticsData => {
+    if (contentData.length === 0) {
       return {
-        totalCampaigns: 0,
+        totalContent: 0,
         totalPosts: 0,
         totalViews: 0,
         totalClicks: 0,
         totalShares: 0,
         totalConversions: 0,
         conversionRate: 0,
-        topPerformingCampaigns: [],
+        topPerformingContent: [],
         topPerformingPlatforms: [],
         recentActivity: []
       }
     }
 
-    const totalCampaigns = campaignsData.length
-    const totalPosts = campaignsData.reduce((sum, campaign) => sum + (campaign.links.length * campaign.platforms.length), 0)
-    const totalViews = campaignsData.reduce((sum, campaign) => sum + (campaign.stats?.views || 0), 0)
-    const totalClicks = campaignsData.reduce((sum, campaign) => sum + (campaign.stats?.clicks || 0), 0)
-    const totalShares = campaignsData.reduce((sum, campaign) => sum + (campaign.stats?.shares || 0), 0)
-    const totalConversions = campaignsData.reduce((sum, campaign) => sum + (campaign.stats?.conversions || 0), 0)
+    const totalContent = contentData.length
+    const totalPosts = contentData.reduce((sum, content) => sum + content.platforms.length, 0)
+    const totalViews = contentData.reduce((sum, content) => sum + (content.stats?.views || 0), 0)
+    const totalClicks = contentData.reduce((sum, content) => sum + (content.stats?.clicks || 0), 0)
+    const totalShares = contentData.reduce((sum, content) => sum + (content.stats?.shares || 0), 0)
+    const totalConversions = contentData.reduce((sum, content) => sum + (content.stats?.conversions || 0), 0)
     const conversionRate = totalClicks > 0 ? ((totalConversions / totalClicks) * 100) : 0
 
-    // Create top performing campaigns
-    const topPerformingCampaigns = campaignsData
-      .filter(campaign => campaign.stats)
+    // Create top performing content
+    const topPerformingContent = contentData
+      .filter(content => content.stats)
       .sort((a, b) => (b.stats?.views || 0) - (a.stats?.views || 0))
       .slice(0, 4)
-      .map((campaign, index) => ({
-        name: campaign.name,
-        platform: campaign.platforms[0] || 'Multiple',
-        engagement: Math.round(((campaign.stats?.clicks || 0) / (campaign.stats?.views || 1)) * 100),
+      .map((content, index) => ({
+        title: content.title,
+        platform: content.platforms[0] || 'Multiple',
+        engagement: Math.round(((content.stats?.clicks || 0) / (content.stats?.views || 1)) * 100),
         color: ['bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-purple-500'][index]
       }))
 
     // Create top performing platforms
     const platformStats = new Map<string, { posts: number; views: number; clicks: number }>()
     
-    campaignsData.forEach(campaign => {
-      campaign.platforms.forEach(platform => {
+    contentData.forEach(content => {
+      content.platforms.forEach(platform => {
         const current = platformStats.get(platform) || { posts: 0, views: 0, clicks: 0 }
         platformStats.set(platform, {
-          posts: current.posts + campaign.links.length,
-          views: current.views + (campaign.stats?.views || 0),
-          clicks: current.clicks + (campaign.stats?.clicks || 0)
+          posts: current.posts + 1,
+          views: current.views + (content.stats?.views || 0),
+          clicks: current.clicks + (content.stats?.clicks || 0)
         })
       })
     })
@@ -139,41 +139,41 @@ export default function AnalyticsPage() {
         color: ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500', 'bg-red-500'][index]
       }))
 
-    // Create recent activity from campaigns
-    const recentActivity = campaignsData
-      .flatMap(campaign => [
+    // Create recent activity from content
+    const recentActivity = contentData
+      .flatMap(content => [
         {
-          id: `${campaign.id}-campaign`,
-          type: 'campaign' as const,
-          campaignName: campaign.name,
-          platform: campaign.platforms[0] || 'Multiple',
-          timestamp: new Date(campaign.createdAt).toLocaleString(),
+          id: `${content.id}-content`,
+          type: 'content' as const,
+          contentTitle: content.title,
+          platform: content.platforms[0] || 'Multiple',
+          timestamp: new Date(content.createdAt).toLocaleString(),
           value: 1
         },
-        ...(campaign.stats ? [
+        ...(content.stats ? [
           {
-            id: `${campaign.id}-clicks`,
+            id: `${content.id}-clicks`,
             type: 'click' as const,
-            campaignName: campaign.name,
-            platform: campaign.platforms[0] || 'Multiple',
-            timestamp: new Date(campaign.createdAt).toLocaleString(),
-            value: campaign.stats.clicks
+            contentTitle: content.title,
+            platform: content.platforms[0] || 'Multiple',
+            timestamp: new Date(content.createdAt).toLocaleString(),
+            value: content.stats.clicks
           },
           {
-            id: `${campaign.id}-shares`,
+            id: `${content.id}-shares`,
             type: 'share' as const,
-            campaignName: campaign.name,
-            platform: campaign.platforms[0] || 'Multiple',
-            timestamp: new Date(campaign.createdAt).toLocaleString(),
-            value: campaign.stats.shares
+            contentTitle: content.title,
+            platform: content.platforms[0] || 'Multiple',
+            timestamp: new Date(content.createdAt).toLocaleString(),
+            value: content.stats.shares
           },
           {
-            id: `${campaign.id}-conversions`,
+            id: `${content.id}-conversions`,
             type: 'conversion' as const,
-            campaignName: campaign.name,
-            platform: campaign.platforms[0] || 'Multiple',
-            timestamp: new Date(campaign.createdAt).toLocaleString(),
-            value: campaign.stats.conversions
+            contentTitle: content.title,
+            platform: content.platforms[0] || 'Multiple',
+            timestamp: new Date(content.createdAt).toLocaleString(),
+            value: content.stats.conversions
           }
         ] : [])
       ])
@@ -181,14 +181,14 @@ export default function AnalyticsPage() {
       .slice(0, 10)
 
     return {
-      totalCampaigns,
+      totalContent,
       totalPosts,
       totalViews,
       totalClicks,
       totalShares,
       totalConversions,
       conversionRate: Math.round(conversionRate * 100) / 100,
-      topPerformingCampaigns,
+      topPerformingContent,
       topPerformingPlatforms,
       recentActivity
     }
