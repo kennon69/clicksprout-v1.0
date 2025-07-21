@@ -40,32 +40,9 @@ export interface ContentRecord {
   updated_at?: string
 }
 
-export interface CampaignRecord {
-  id?: string
-  name: string
-  content_id?: string
-  platforms: string[]
-  scheduled_time?: string
-  posted: boolean
-  budget?: number
-  ab_test_enabled: boolean
-  ab_variants?: any[]
-  market_research?: any
-  performance_forecast?: any
-  optimization_enabled: boolean
-  stats: {
-    views: number
-    clicks: number
-    shares: number
-    conversions: number
-  }
-  created_at?: string
-  updated_at?: string
-}
-
 export interface ScheduledPostRecord {
   id?: string
-  campaign_id?: string
+  content_id?: string
   platform: string
   content: string
   images: string[]
@@ -343,73 +320,6 @@ export class DatabaseService {
     } catch (error) {
       console.error('Error updating content:', error)
       return null
-    }
-  }
-
-  // Campaign operations with similar fallback pattern
-  static async saveCampaign(campaign: CampaignRecord): Promise<CampaignRecord | null> {
-    try {
-      const campaignWithId = {
-        ...campaign,
-        id: campaign.id || generateId(),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }
-
-      // Always fallback to localStorage for now (can be enhanced later)
-      const existingCampaigns = JSON.parse(localStorage.getItem('database_campaigns') || '[]')
-      const updatedCampaigns = [...existingCampaigns, campaignWithId]
-      localStorage.setItem('database_campaigns', JSON.stringify(updatedCampaigns))
-      
-      return campaignWithId
-    } catch (error) {
-      console.error('Error saving campaign:', error)
-      return null
-    }
-  }
-
-  static async getAllCampaigns(): Promise<CampaignRecord[]> {
-    try {
-      const campaigns = JSON.parse(localStorage.getItem('database_campaigns') || '[]')
-      return campaigns.sort((a: CampaignRecord, b: CampaignRecord) => 
-        new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime()
-      )
-    } catch (error) {
-      console.error('Error getting campaigns:', error)
-      return []
-    }
-  }
-
-  static async updateCampaign(id: string, campaign: Partial<CampaignRecord>): Promise<CampaignRecord | null> {
-    try {
-      const allCampaigns = JSON.parse(localStorage.getItem('database_campaigns') || '[]')
-      const index = allCampaigns.findIndex((item: CampaignRecord) => item.id === id)
-      
-      if (index !== -1) {
-        allCampaigns[index] = {
-          ...allCampaigns[index],
-          ...campaign,
-          updated_at: new Date().toISOString()
-        }
-        localStorage.setItem('database_campaigns', JSON.stringify(allCampaigns))
-        return allCampaigns[index]
-      }
-      return null
-    } catch (error) {
-      console.error('Error updating campaign:', error)
-      return null
-    }
-  }
-
-  static async deleteCampaign(id: string): Promise<boolean> {
-    try {
-      const allCampaigns = JSON.parse(localStorage.getItem('database_campaigns') || '[]')
-      const filteredCampaigns = allCampaigns.filter((item: CampaignRecord) => item.id !== id)
-      localStorage.setItem('database_campaigns', JSON.stringify(filteredCampaigns))
-      return true
-    } catch (error) {
-      console.error('Error deleting campaign:', error)
-      return false
     }
   }
 
@@ -758,18 +668,6 @@ class Database {
 
   async updateContent(id: string, updates: Partial<ContentRecord>): Promise<ContentRecord | null> {
     return DatabaseService.updateContent(id, updates)
-  }
-
-  async saveCampaign(campaign: CampaignRecord): Promise<CampaignRecord | null> {
-    return DatabaseService.saveCampaign(campaign)
-  }
-
-  async getAllCampaigns(): Promise<CampaignRecord[]> {
-    return DatabaseService.getAllCampaigns()
-  }
-
-  async updateCampaign(id: string, updates: Partial<CampaignRecord>): Promise<CampaignRecord | null> {
-    return DatabaseService.updateCampaign(id, updates)
   }
 
   async saveScheduledPost(post: ScheduledPostRecord): Promise<ScheduledPostRecord | null> {

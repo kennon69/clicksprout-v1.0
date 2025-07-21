@@ -195,23 +195,17 @@ export class RedditAPI extends PlatformAPI {
   }
 }
 
-// Medium API Implementation (Puppeteer-based)
+// Medium API Implementation
 export class MediumAPI extends PlatformAPI {
-  private username: string
-  private password: string
-
-  constructor(username: string, password: string) {
-    super('', '', '') // Not using API keys for Puppeteer approach
-    this.username = username
-    this.password = password
-  }
-
   async validateAuth(): Promise<boolean> {
     try {
-      // Import our Medium poster utility
-      const { testMediumLogin } = require('@/utils/mediumPoster')
-      const result = await testMediumLogin()
-      return result.success
+      const response = await fetch('https://api.medium.com/v1/me', {
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      return response.ok
     } catch (error) {
       console.error('Medium auth validation failed:', error)
       return false
@@ -220,29 +214,52 @@ export class MediumAPI extends PlatformAPI {
 
   async post(data: PostData): Promise<PostResponse> {
     try {
-      // Import our Medium poster utility
-      const { postToMedium } = require('@/utils/mediumPoster')
-      
-      // Prepare content with hashtags
-      const fullContent = `${data.content}\n\n${data.hashtags.join(' ')}`
-      
-      // Extract tags from hashtags
-      const tags = data.hashtags.map(tag => tag.replace('#', '').trim()).filter(tag => tag.length > 0)
-      
-      // Use Puppeteer to post to Medium
-      const result = await postToMedium(data.title, fullContent, { tags })
-      
-      if (result.success) {
-        return {
-          success: true,
-          postId: data.id, // Use our internal ID since Medium doesn't return one via Puppeteer
-          url: result.url || 'https://medium.com/@' + this.username
+      // First, get user ID
+      const userResponse = await fetch('https://api.medium.com/v1/me', {
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`,
+          'Content-Type': 'application/json'
         }
-      } else {
+      })
+
+      if (!userResponse.ok) {
+        throw new Error('Failed to get Medium user info')
+      }
+
+      const userData = await userResponse.json()
+      const userId = userData.data.id
+
+      // Create post
+      const postData = {
+        title: data.title,
+        contentFormat: 'html',
+        content: `<p>${data.content}</p><p>${data.hashtags.join(' ')}</p>`,
+        publishStatus: 'public',
+        tags: data.hashtags.map(tag => tag.replace('#', ''))
+      }
+
+      const response = await fetch(`https://api.medium.com/v1/users/${userId}/posts`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
         return {
           success: false,
-          error: result.error || 'Medium posting failed'
+          error: errorData.errors?.[0]?.message || 'Medium post failed'
         }
+      }
+
+      const result = await response.json()
+      return {
+        success: true,
+        postId: result.data.id,
+        url: result.data.url
       }
     } catch (error) {
       console.error('Medium post error:', error)
@@ -254,8 +271,8 @@ export class MediumAPI extends PlatformAPI {
   }
 
   async getAnalytics(postId: string): Promise<PostAnalytics> {
-    // Medium analytics would require additional Puppeteer scraping
-    // For now, return basic structure with zero values
+    // Medium doesn't provide analytics through their API
+    // This would need to be implemented with web scraping or alternative methods
     return {
       postId,
       platform: 'medium',
@@ -744,10 +761,7 @@ export class PlatformFactory {
           process.env.REDDIT_PASSWORD!
         )
       case 'medium':
-        return new MediumAPI(
-          process.env.MEDIUM_USERNAME!,
-          process.env.MEDIUM_PASSWORD!
-        )
+        return new MediumAPI('', '', process.env.MEDIUM_ACCESS_TOKEN!)
       case 'twitter':
         return new TwitterAPI(
           process.env.TWITTER_API_KEY!,

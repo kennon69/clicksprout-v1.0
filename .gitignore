@@ -12,7 +12,6 @@
 # next.js
 /.next/
 /out/
-next-env.d.ts
 
 # production
 /build
@@ -28,50 +27,6 @@ yarn-error.log*
 
 # local env files
 .env*.local
-.env
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS files
-Thumbs.db
-
-# Cache
-.cache/
-.eslintcache
-
-# Development and test files
-dev-test.js
-test-*.js
-monitor.js
-install-*.js
-install-*.bat
-pre-deployment-check.js
-*_test.tsx
-*_test.ts
-*.test.tsx
-*.test.ts
-*.spec.tsx
-*.spec.ts
-
-# Status documentation files
-*_COMPLETE.md
-*_STATUS.md
-*_SUCCESS.md
-*_FIX.md
-BUILD_*.md
-FINAL_*.md
-SUCCESS.md
-SYNTAX_*.md
 
 # vercel
 .vercel

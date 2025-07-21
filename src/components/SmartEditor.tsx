@@ -194,92 +194,80 @@ export default function SmartEditor({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-2 sm:p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6">
-          <div className="flex flex-col space-y-4">
-            {/* Title Section */}
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 mb-6">
+          <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <Wand2 className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <Wand2 className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">Smart Content Editor</h1>
-                <p className="text-xs sm:text-sm text-gray-400">AI-powered viral content creation</p>
+                <h1 className="text-2xl font-bold text-white">Smart Content Editor</h1>
+                <p className="text-gray-400">AI-powered viral content creation</p>
               </div>
             </div>
             
-            {/* Controls Section */}
-            <div className="flex flex-col sm:flex-row justify-between space-y-3 sm:space-y-0 sm:items-center">
-              {/* Save Status */}
-              <div className="flex items-center">
-                {lastSaved && (
-                  <span className="text-xs sm:text-sm text-gray-400">
-                    Saved {lastSaved.toLocaleTimeString()}
-                  </span>
-                )}
-              </div>
+            <div className="flex items-center space-x-3">
+              {lastSaved && (
+                <span className="text-sm text-gray-400">
+                  Saved {lastSaved.toLocaleTimeString()}
+                </span>
+              )}
               
-              {/* Action Buttons */}
-              <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-3">
-                <Button
-                  variant="outline"
-                  onClick={() => setIsPreviewMode(!isPreviewMode)}
-                  className="border-white/20 text-white hover:bg-white/10 text-sm tap-target"
-                >
-                  <Eye className="w-4 h-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">{isPreviewMode ? 'Edit' : 'Preview'}</span>
-                  <span className="sm:hidden">{isPreviewMode ? 'Edit' : 'View'}</span>
-                </Button>
-                
-                <Button
-                  onClick={handleGenerateContent}
-                  disabled={isGenerating}
-                  className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-sm tap-target"
-                >
-                  {isGenerating ? (
-                    <RefreshCw className="w-4 h-4 mr-1 sm:mr-2 animate-spin" />
-                  ) : (
-                    <Sparkles className="w-4 h-4 mr-1 sm:mr-2" />
-                  )}
-                  <span className="hidden sm:inline">AI Generate</span>
-                  <span className="sm:hidden">Generate</span>
-                </Button>
-                
-                <Button
-                  onClick={handleOptimizeContent}
-                  disabled={isOptimizing}
-                  className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-sm tap-target"
-                >
-                  {isOptimizing ? (
-                    <RefreshCw className="w-4 h-4 mr-1 sm:mr-2 animate-spin" />
-                  ) : (
-                    <Zap className="w-4 h-4 mr-1 sm:mr-2" />
-                  )}
-                  <span className="hidden sm:inline">Optimize</span>
-                  <span className="sm:hidden">Opt</span>
-                </Button>
-                
-                <Button
-                  onClick={handlePublish}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-sm tap-target"
-                >
-                  <Share2 className="w-4 h-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">Publish</span>
-                  <span className="sm:hidden">Pub</span>
-                </Button>
-              </div>
+              <Button
+                variant="outline"
+                onClick={() => setIsPreviewMode(!isPreviewMode)}
+                className="border-white/20 text-white hover:bg-white/10"
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                {isPreviewMode ? 'Edit' : 'Preview'}
+              </Button>
+              
+              <Button
+                onClick={handleGenerateContent}
+                disabled={isGenerating}
+                className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700"
+              >
+                {isGenerating ? (
+                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <Sparkles className="w-4 h-4 mr-2" />
+                )}
+                AI Generate
+              </Button>
+              
+              <Button
+                onClick={handleOptimizeContent}
+                disabled={isOptimizing}
+                className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700"
+              >
+                {isOptimizing ? (
+                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <Zap className="w-4 h-4 mr-2" />
+                )}
+                Optimize
+              </Button>
+              
+              <Button
+                onClick={handlePublish}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                Publish
+              </Button>
             </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Editor Panel */}
           <div className="lg:col-span-2">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-3 sm:p-4 lg:p-6">
-              <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6">
+              <div className="space-y-6">
                 {/* Headline */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
@@ -307,7 +295,7 @@ export default function SmartEditor({
                     value={content.headline}
                     onChange={(e) => handleContentChange('headline', e.target.value)}
                     placeholder="Enter your viral headline..."
-                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 resize-none overflow-hidden mobile-text-base"
+                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 resize-none overflow-hidden"
                     maxLength={100}
                   />
                 </div>
@@ -339,7 +327,7 @@ export default function SmartEditor({
                     value={content.description}
                     onChange={(e) => handleContentChange('description', e.target.value)}
                     placeholder="Describe your content in detail..."
-                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 resize-none overflow-hidden min-h-[100px] sm:min-h-[120px] mobile-text-base"
+                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 resize-none overflow-hidden min-h-[120px]"
                     maxLength={500}
                   />
                 </div>
@@ -371,7 +359,7 @@ export default function SmartEditor({
                     value={content.hashtags.join(' ')}
                     onChange={(e) => handleContentChange('hashtags', e.target.value)}
                     placeholder="#viral #trending #innovation"
-                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 mobile-text-base tap-target"
+                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
@@ -381,7 +369,7 @@ export default function SmartEditor({
                   <select
                     value={content.platform}
                     onChange={(e) => handleContentChange('platform', e.target.value)}
-                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-white focus:outline-none focus:border-blue-500 mobile-text-base tap-target"
+                    className="w-full bg-slate-800/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                   >
                     <option value="general">General</option>
                     <option value="pinterest">Pinterest</option>
@@ -397,19 +385,19 @@ export default function SmartEditor({
           </div>
 
           {/* Preview Panel */}
-          <div className="lg:col-span-1 order-first lg:order-last">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-3 sm:p-4 lg:p-6">
-              <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-white">Preview</h3>
-                <span className="text-xs sm:text-sm text-gray-400 capitalize">{content.platform}</span>
+          <div className="lg:col-span-1">
+            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-white">Preview</h3>
+                <span className="text-sm text-gray-400 capitalize">{content.platform}</span>
               </div>
               
-              <div className="space-y-3 sm:space-y-4">
-                <div className="bg-slate-800/50 rounded-lg p-2 sm:p-3 lg:p-4 border border-white/5">
-                  <h4 className="font-bold text-white mb-2 text-xs sm:text-sm lg:text-base line-clamp-2">
+              <div className="space-y-4">
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-white/5">
+                  <h4 className="font-bold text-white mb-2 line-clamp-2">
                     {content.headline || 'Your headline will appear here...'}
                   </h4>
-                  <p className="text-gray-300 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2 sm:line-clamp-3 lg:line-clamp-4">
+                  <p className="text-gray-300 text-sm mb-3 line-clamp-4">
                     {content.description || 'Your description will appear here...'}
                   </p>
                   <div className="flex flex-wrap gap-1">
@@ -427,11 +415,10 @@ export default function SmartEditor({
                 <div className="text-center">
                   <Button
                     onClick={() => setIsAIAssistantVisible(true)}
-                    className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 tap-target text-sm"
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
                   >
                     <Bot className="w-4 h-4 mr-2" />
-                    <span className="hidden sm:inline">Get AI Help</span>
-                    <span className="sm:hidden">AI Help</span>
+                    Get AI Help
                   </Button>
                 </div>
               </div>
@@ -441,24 +428,24 @@ export default function SmartEditor({
 
         {/* Optimization Result Modal */}
         {showOptimizationResult && optimizationResult && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
-            <div className="bg-slate-900 border border-white/10 rounded-2xl p-4 sm:p-6 max-w-2xl w-full max-h-[90vh] sm:max-h-[80vh] overflow-y-auto">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-slate-900 border border-white/10 rounded-2xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg sm:text-xl font-bold text-white">AI Optimization Results</h3>
+                <h3 className="text-xl font-bold text-white">AI Optimization Results</h3>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowOptimizationResult(false)}
-                  className="text-gray-400 hover:text-white tap-target"
+                  className="text-gray-400 hover:text-white"
                 >
                   <X className="w-4 h-4" />
                 </Button>
               </div>
               
               <div className="space-y-4">
-                <div className="bg-slate-800/50 rounded-lg p-3 sm:p-4">
-                  <h4 className="font-medium text-white mb-2 text-sm sm:text-base">Optimized Content</h4>
-                  <p className="text-gray-300 text-xs sm:text-sm">{optimizationResult.optimizedContent}</p>
+                <div className="bg-slate-800/50 rounded-lg p-4">
+                  <h4 className="font-medium text-white mb-2">Optimized Content</h4>
+                  <p className="text-gray-300 text-sm">{optimizationResult.optimizedContent}</p>
                 </div>
                 
                 <div className="bg-slate-800/50 rounded-lg p-4">
