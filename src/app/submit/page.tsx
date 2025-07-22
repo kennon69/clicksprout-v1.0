@@ -86,8 +86,8 @@ export default function SubmitPage() {
           </div>
 
           {/* Features Grid */}
-          <div className="mt-12 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50">
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">Powered by Advanced AI</h3>
+          <div className="mt-12 bg-gradient-to-br from-purple-100/60 to-pink-100/60 backdrop-blur-sm rounded-2xl p-8 border border-purple-300/30">
+            <h3 className="text-2xl font-bold text-purple-500 mb-6 text-center">Powered by Advanced AI</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="text-center">
                 <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-3">

@@ -235,7 +235,7 @@ export default function AdvancedContentGenerator({
       </div>
 
       {/* URL Input Section */}
-      <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+      <div className="backdrop-blur-sm rounded-xl p-6 border border-purple-300/30 bg-white/80">
         <div className="space-y-4">
           {/* Mode Selection */}
           <div className="flex gap-2">
@@ -268,7 +268,7 @@ export default function AdvancedContentGenerator({
                 placeholder="Paste any product URL (Amazon, Shopify, AliExpress, etc.)"
                 value={url}
                 onChange={handleUrlChange}
-                className="pl-10 bg-gray-700/50 border-gray-600 text-white placeholder-gray-400"
+                className="pl-10 bg-white border-purple-300 text-black placeholder-purple-300"
                 disabled={isLoading}
               />
               {detectedPlatform && (
@@ -294,7 +294,7 @@ export default function AdvancedContentGenerator({
           </div>
 
           {/* Mode Description */}
-          <div className="text-xs text-gray-400 bg-gray-700/30 rounded-lg p-3">
+          <div className="text-xs text-purple-400 bg-purple-100/60 rounded-lg p-3">
             {mode === 'quick' ? (
               <div className="flex items-center gap-2">
                 <Zap className="w-3 h-3 text-yellow-400" />
@@ -320,9 +320,9 @@ export default function AdvancedContentGenerator({
               </span>
               <span className="text-purple-400">{progress}%</span>
             </div>
-            <div className="w-full bg-gray-700 rounded-full h-2">
+            <div className="w-full bg-purple-200 rounded-full h-2">
               <div 
-                className="bg-gradient-to-r from-purple-600 to-pink-600 h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -357,7 +357,7 @@ export default function AdvancedContentGenerator({
 
           {/* Scraped Metadata */}
           {result.metadata && (
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+            <div className="backdrop-blur-sm rounded-xl p-6 border border-purple-300/30 bg-white/80">
               <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <Eye className="w-5 h-5 text-blue-400" />
                 Extracted Product Data
@@ -397,7 +397,7 @@ export default function AdvancedContentGenerator({
 
           {/* AI Generated Content */}
           {result.aiContent && (
-            <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">
+            <div className="bg-gradient-to-br from-purple-100/60 to-pink-100/60 backdrop-blur-sm rounded-xl p-6 border border-purple-300/30">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-purple-400" />
@@ -414,14 +414,14 @@ export default function AdvancedContentGenerator({
               </div>
               
               {/* Viral Score */}
-              <div className="mb-6 p-4 bg-black/20 rounded-lg">
+              <div className="mb-6 p-4 bg-purple-50/60 rounded-lg">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-300">Viral Potential Score</span>
+                  <span className="text-purple-400">Viral Potential Score</span>
                   <span className={`text-2xl font-bold ${getViralScoreColor(result.aiContent.engagement.viral_score)}`}>
                     {result.aiContent.engagement.viral_score}/100
                   </span>
                 </div>
-                <div className="w-full bg-gray-700 rounded-full h-3">
+                <div className="w-full bg-purple-200 rounded-full h-3">
                   <div 
                     className={`bg-gradient-to-r ${getViralScoreGradient(result.aiContent.engagement.viral_score)} h-3 rounded-full transition-all duration-500`}
                     style={{ width: `${result.aiContent.engagement.viral_score}%` }}
@@ -429,116 +429,8 @@ export default function AdvancedContentGenerator({
                 </div>
               </div>
 
-              {/* Generated Content */}
-              <div className="space-y-4">
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-purple-400 font-medium">Viral Title</h4>
-                    <button
-                      onClick={() => handleCopyToClipboard(result.aiContent.viralTitle, 'Title')}
-                      className="flex items-center gap-1 text-gray-400 hover:text-purple-400 transition-colors text-sm"
-                    >
-                      <Copy className="w-4 h-4" />
-                      Copy
-                    </button>
-                  </div>
-                  <p className="text-white bg-gray-800/50 rounded-lg p-3">{result.aiContent.viralTitle}</p>
-                </div>
-                
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-purple-400 font-medium">Description</h4>
-                    <button
-                      onClick={() => handleCopyToClipboard(result.aiContent.description, 'Description')}
-                      className="flex items-center gap-1 text-gray-400 hover:text-purple-400 transition-colors text-sm"
-                    >
-                      <Copy className="w-4 h-4" />
-                      Copy
-                    </button>
-                  </div>
-                  <p className="text-gray-300 bg-gray-800/50 rounded-lg p-3">{result.aiContent.description}</p>
-                </div>
-                
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-purple-400 font-medium">Hashtags</h4>
-                    <div className="flex items-center gap-2">
-                      {result.aiContent.hashtags.length > 6 && (
-                        <button
-                          onClick={() => setShowAllHashtags(!showAllHashtags)}
-                          className="text-gray-400 hover:text-purple-400 transition-colors text-sm"
-                        >
-                          {showAllHashtags ? 'Show Less' : 'Show All'}
-                        </button>
-                      )}
-                      <button
-                        onClick={() => handleCopyToClipboard(result.aiContent.hashtags.map(tag => `#${tag}`).join(' '), 'Hashtags')}
-                        className="flex items-center gap-1 text-gray-400 hover:text-purple-400 transition-colors text-sm"
-                      >
-                        <Copy className="w-4 h-4" />
-                        Copy All
-                      </button>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {(showAllHashtags ? result.aiContent.hashtags : result.aiContent.hashtags.slice(0, 6)).map((tag, index) => (
-                      <span key={index} className="px-3 py-1 bg-purple-600/20 text-purple-300 rounded-full text-sm">
-                        #{tag}
-                      </span>
-                    ))}
-                    {!showAllHashtags && result.aiContent.hashtags.length > 6 && (
-                      <span className="px-3 py-1 bg-gray-600/20 text-gray-400 rounded-full text-sm">
-                        +{result.aiContent.hashtags.length - 6} more
-                      </span>
-                    )}
-                  </div>
-                </div>
-                
-                {/* Hook Lines */}
-                {result.aiContent.hookLines && result.aiContent.hookLines.length > 0 && (
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="text-purple-400 font-medium">Hook Lines</h4>
-                      <div className="flex items-center gap-2">
-                        {result.aiContent.hookLines.length > 3 && (
-                          <button
-                            onClick={() => setShowAllHookLines(!showAllHookLines)}
-                            className="text-gray-400 hover:text-purple-400 transition-colors text-sm"
-                          >
-                            {showAllHookLines ? 'Show Less' : 'Show All'}
-                          </button>
-                        )}
-                        <button
-                          onClick={() => handleCopyToClipboard(result.aiContent.hookLines.join('\n'), 'Hook Lines')}
-                          className="flex items-center gap-1 text-gray-400 hover:text-purple-400 transition-colors text-sm"
-                        >
-                          <Copy className="w-4 h-4" />
-                          Copy All
-                        </button>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      {(showAllHookLines ? result.aiContent.hookLines : result.aiContent.hookLines.slice(0, 3)).map((line, index) => (
-                        <div key={index} className="bg-gray-800/50 rounded-lg p-3 flex items-start justify-between group">
-                          <p className="text-gray-300 flex-1">{line}</p>
-                          <button
-                            onClick={() => handleCopyToClipboard(line, 'Hook Line')}
-                            className="opacity-0 group-hover:opacity-100 ml-2 text-gray-400 hover:text-purple-400 transition-all"
-                          >
-                            <Copy className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
-                      {!showAllHookLines && result.aiContent.hookLines.length > 3 && (
-                        <div className="text-center">
-                          <span className="text-gray-400 text-sm">+{result.aiContent.hookLines.length - 3} more hook lines</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
+              {/* AI Copilot demo fully removed as requested */}
               </div>
-            </div>
           )}
 
           {/* Performance Stats */}
