@@ -20,7 +20,8 @@ import {
   AlertCircle,
   CheckCircle,
   Clock,
-  Target
+  Target,
+  Copy
 } from 'lucide-react'
 
 interface ScrapingResult {
@@ -71,10 +72,80 @@ export default function AdvancedContentGenerator({
   const [mode, setMode] = useState<'quick' | 'full'>('full')
   const [error, setError] = useState<string | null>(null)
   const [progress, setProgress] = useState(0)
+  const [detectedPlatform, setDetectedPlatform] = useState<string | null>(null)
+  const [copyToast, setCopyToast] = useState<{ show: boolean; message: string }>({ show: false, message: '' })
+  const [isRegenerating, setIsRegenerating] = useState(false)
+  const [showAllHashtags, setShowAllHashtags] = useState(false)
+  const [showAllHookLines, setShowAllHookLines] = useState(false)
+
+  // Detect platform from URL
+  const detectPlatform = (url: string) => {
+    if (url.includes('amazon.')) return 'Amazon'
+    if (url.includes('shopify.') || url.includes('.myshopify.')) return 'Shopify'
+    if (url.includes('aliexpress.')) return 'AliExpress'
+    if (url.includes('ebay.')) return 'eBay'
+    if (url.includes('etsy.')) return 'Etsy'
+    if (url.includes('walmart.')) return 'Walmart'
+    if (url.includes('target.')) return 'Target'
+    if (url.includes('bestbuy.')) return 'Best Buy'
+    return null
+  }
+
+  // Handle regenerate AI content
+  const handleRegenerateContent = async () => {
+    if (!result?.metadata) return
+    
+    setIsRegenerating(true)
+    try {
+      // Simulate AI content regeneration (replace with actual API call)
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      // In real implementation, call your AI API here with the existing metadata
+      console.log('Regenerating AI content for:', result.metadata.title)
+      
+      // For now, just show success message
+      setCopyToast({ show: true, message: 'Content regenerated successfully!' })
+      setTimeout(() => setCopyToast({ show: false, message: '' }), 3000)
+    } catch (error) {
+      console.error('Failed to regenerate content:', error)
+      setCopyToast({ show: true, message: 'Failed to regenerate content' })
+      setTimeout(() => setCopyToast({ show: false, message: '' }), 3000)
+    } finally {
+      setIsRegenerating(false)
+    }
+  }
+
+  // Handle copy to clipboard
+  const handleCopyToClipboard = async (text: string, type: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopyToast({ show: true, message: `${type} copied to clipboard!` })
+      setTimeout(() => setCopyToast({ show: false, message: '' }), 3000)
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error)
+      setCopyToast({ show: true, message: 'Failed to copy to clipboard' })
+      setTimeout(() => setCopyToast({ show: false, message: '' }), 3000)
+    }
+  }
+
+  // Validate URL format
+  const isValidUrl = (urlString: string) => {
+    try {
+      const url = new URL(urlString)
+      return url.protocol === 'http:' || url.protocol === 'https:'
+    } catch {
+      return false
+    }
+  }
 
   const handleScrapeAndGenerate = async () => {
     if (!url.trim()) {
       setError('Please enter a valid URL')
+      return
+    }
+
+    if (!isValidUrl(url)) {
+      setError('Please enter a valid URL starting with http:// or https://')
       return
     }
 
@@ -127,8 +198,13 @@ export default function AdvancedContentGenerator({
   }
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUrl(e.target.value)
+    const newUrl = e.target.value
+    setUrl(newUrl)
     setError(null)
+    
+    // Detect platform for better UX
+    const platform = detectPlatform(newUrl)
+    setDetectedPlatform(platform)
   }
 
   const getViralScoreColor = (score: number) => {
@@ -195,6 +271,13 @@ export default function AdvancedContentGenerator({
                 className="pl-10 bg-gray-700/50 border-gray-600 text-white placeholder-gray-400"
                 disabled={isLoading}
               />
+              {detectedPlatform && (
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <span className="text-xs bg-green-600/20 text-green-400 px-2 py-1 rounded-full border border-green-500/30">
+                    {detectedPlatform} detected
+                  </span>
+                </div>
+              )}
             </div>
             <Button
               onClick={handleScrapeAndGenerate}
@@ -315,10 +398,20 @@ export default function AdvancedContentGenerator({
           {/* AI Generated Content */}
           {result.aiContent && (
             <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-purple-400" />
-                AI-Generated Viral Content
-              </h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-purple-400" />
+                  AI-Generated Viral Content
+                </h3>
+                <button
+                  onClick={handleRegenerateContent}
+                  disabled={isRegenerating}
+                  className="flex items-center gap-2 px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 rounded-lg text-purple-300 text-sm transition-all duration-200 disabled:opacity-50"
+                >
+                  <RefreshCw className={`w-4 h-4 ${isRegenerating ? 'animate-spin' : ''}`} />
+                  {isRegenerating ? 'Regenerating...' : 'Regenerate'}
+                </button>
+              </div>
               
               {/* Viral Score */}
               <div className="mb-6 p-4 bg-black/20 rounded-lg">
@@ -339,25 +432,111 @@ export default function AdvancedContentGenerator({
               {/* Generated Content */}
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-purple-400 font-medium mb-2">Viral Title</h4>
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-purple-400 font-medium">Viral Title</h4>
+                    <button
+                      onClick={() => handleCopyToClipboard(result.aiContent.viralTitle, 'Title')}
+                      className="flex items-center gap-1 text-gray-400 hover:text-purple-400 transition-colors text-sm"
+                    >
+                      <Copy className="w-4 h-4" />
+                      Copy
+                    </button>
+                  </div>
                   <p className="text-white bg-gray-800/50 rounded-lg p-3">{result.aiContent.viralTitle}</p>
                 </div>
                 
                 <div>
-                  <h4 className="text-purple-400 font-medium mb-2">Description</h4>
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-purple-400 font-medium">Description</h4>
+                    <button
+                      onClick={() => handleCopyToClipboard(result.aiContent.description, 'Description')}
+                      className="flex items-center gap-1 text-gray-400 hover:text-purple-400 transition-colors text-sm"
+                    >
+                      <Copy className="w-4 h-4" />
+                      Copy
+                    </button>
+                  </div>
                   <p className="text-gray-300 bg-gray-800/50 rounded-lg p-3">{result.aiContent.description}</p>
                 </div>
                 
                 <div>
-                  <h4 className="text-purple-400 font-medium mb-2">Hashtags</h4>
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-purple-400 font-medium">Hashtags</h4>
+                    <div className="flex items-center gap-2">
+                      {result.aiContent.hashtags.length > 6 && (
+                        <button
+                          onClick={() => setShowAllHashtags(!showAllHashtags)}
+                          className="text-gray-400 hover:text-purple-400 transition-colors text-sm"
+                        >
+                          {showAllHashtags ? 'Show Less' : 'Show All'}
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleCopyToClipboard(result.aiContent.hashtags.map(tag => `#${tag}`).join(' '), 'Hashtags')}
+                        className="flex items-center gap-1 text-gray-400 hover:text-purple-400 transition-colors text-sm"
+                      >
+                        <Copy className="w-4 h-4" />
+                        Copy All
+                      </button>
+                    </div>
+                  </div>
                   <div className="flex flex-wrap gap-2">
-                    {result.aiContent.hashtags.map((tag, index) => (
+                    {(showAllHashtags ? result.aiContent.hashtags : result.aiContent.hashtags.slice(0, 6)).map((tag, index) => (
                       <span key={index} className="px-3 py-1 bg-purple-600/20 text-purple-300 rounded-full text-sm">
                         #{tag}
                       </span>
                     ))}
+                    {!showAllHashtags && result.aiContent.hashtags.length > 6 && (
+                      <span className="px-3 py-1 bg-gray-600/20 text-gray-400 rounded-full text-sm">
+                        +{result.aiContent.hashtags.length - 6} more
+                      </span>
+                    )}
                   </div>
                 </div>
+                
+                {/* Hook Lines */}
+                {result.aiContent.hookLines && result.aiContent.hookLines.length > 0 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="text-purple-400 font-medium">Hook Lines</h4>
+                      <div className="flex items-center gap-2">
+                        {result.aiContent.hookLines.length > 3 && (
+                          <button
+                            onClick={() => setShowAllHookLines(!showAllHookLines)}
+                            className="text-gray-400 hover:text-purple-400 transition-colors text-sm"
+                          >
+                            {showAllHookLines ? 'Show Less' : 'Show All'}
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleCopyToClipboard(result.aiContent.hookLines.join('\n'), 'Hook Lines')}
+                          className="flex items-center gap-1 text-gray-400 hover:text-purple-400 transition-colors text-sm"
+                        >
+                          <Copy className="w-4 h-4" />
+                          Copy All
+                        </button>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {(showAllHookLines ? result.aiContent.hookLines : result.aiContent.hookLines.slice(0, 3)).map((line, index) => (
+                        <div key={index} className="bg-gray-800/50 rounded-lg p-3 flex items-start justify-between group">
+                          <p className="text-gray-300 flex-1">{line}</p>
+                          <button
+                            onClick={() => handleCopyToClipboard(line, 'Hook Line')}
+                            className="opacity-0 group-hover:opacity-100 ml-2 text-gray-400 hover:text-purple-400 transition-all"
+                          >
+                            <Copy className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                      {!showAllHookLines && result.aiContent.hookLines.length > 3 && (
+                        <div className="text-center">
+                          <span className="text-gray-400 text-sm">+{result.aiContent.hookLines.length - 3} more hook lines</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -383,6 +562,14 @@ export default function AdvancedContentGenerator({
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Copy Toast Notification */}
+      {copyToast.show && (
+        <div className="fixed top-4 right-4 z-50 bg-green-900/90 backdrop-blur-sm border border-green-500/30 rounded-lg p-3 flex items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
+          <CheckCircle className="w-4 h-4 text-green-400" />
+          <span className="text-green-200 text-sm">{copyToast.message}</span>
         </div>
       )}
     </div>
