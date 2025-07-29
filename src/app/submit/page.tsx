@@ -10,21 +10,33 @@ export default function SubmitPage() {
 
   const handleContentGenerated = (content: any) => {
     console.log('Content generated:', content)
-    
-    // Navigate to editor with the generated content
+
+    // Ensure all required fields for the editor are present
+    const metadata = content.metadata || {};
     const editorData = {
-      headline: content.headline,
-      description: content.description,
-      hashtags: content.hashtags,
-      metadata: content.metadata,
-      performance: content.performance
-    }
-    
+      headline: content.headline || '',
+      description: content.description || '',
+      hashtags: Array.isArray(content.hashtags) ? content.hashtags : [],
+      metadata: {
+        url: metadata.url || metadata.link || '',
+        price: metadata.price || '',
+        images: Array.isArray(metadata.images) ? metadata.images : [],
+        brand: metadata.brand || '',
+        category: metadata.category || '',
+        availability: metadata.availability || '',
+        rating: metadata.rating || '',
+        reviews: metadata.reviews || '',
+        title: metadata.title || '',
+        description: metadata.description || ''
+      },
+      performance: content.performance || null
+    };
+
     // Store in sessionStorage for the editor
-    sessionStorage.setItem('generatedContent', JSON.stringify(editorData))
-    
+    sessionStorage.setItem('generatedContent', JSON.stringify(editorData));
+
     // Navigate to editor
-    router.push('/editor')
+    router.push('/editor');
   }
 
   return (

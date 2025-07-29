@@ -362,36 +362,46 @@ export default function AdvancedContentGenerator({
                 <Eye className="w-5 h-5 text-blue-400" />
                 Extracted Product Data
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div className="space-y-2">
+              {(!result.metadata.title && !result.metadata.price && !result.metadata.brand && !result.metadata.category && !result.metadata.rating && !result.metadata.availability) ? (
+                <div className="bg-yellow-100/80 border border-yellow-400/40 rounded-lg p-4 flex items-center gap-3 mb-2">
+                  <AlertCircle className="w-5 h-5 text-yellow-500 flex-shrink-0" />
                   <div>
-                    <span className="text-gray-400">Title:</span>
-                    <p className="text-white">{result.metadata.title}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-400">Price:</span>
-                    <p className="text-green-400 font-medium">{result.metadata.price}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-400">Brand:</span>
-                    <p className="text-white">{result.metadata.brand}</p>
+                    <h4 className="text-yellow-700 font-semibold">No product data could be extracted</h4>
+                    <p className="text-yellow-600 text-sm mt-1">We couldn't extract product details from this link. Please check the URL or try a different product page.</p>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <div>
-                    <span className="text-gray-400">Category:</span>
-                    <p className="text-white">{result.metadata.category}</p>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div className="space-y-2">
+                    <div>
+                      <span className="text-gray-400">Title:</span>
+                      <p className="text-white">{result.metadata.title}</p>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Price:</span>
+                      <p className="text-green-400 font-medium">{result.metadata.price}</p>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Brand:</span>
+                      <p className="text-white">{result.metadata.brand}</p>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-gray-400">Rating:</span>
-                    <p className="text-yellow-400">{result.metadata.rating}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-400">Availability:</span>
-                    <p className="text-white">{result.metadata.availability}</p>
+                  <div className="space-y-2">
+                    <div>
+                      <span className="text-gray-400">Category:</span>
+                      <p className="text-white">{result.metadata.category}</p>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Rating:</span>
+                      <p className="text-yellow-400">{result.metadata.rating}</p>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Availability:</span>
+                      <p className="text-white">{result.metadata.availability}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
 

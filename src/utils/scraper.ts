@@ -53,9 +53,28 @@ export async function scrapeAndGenerate(link: string): Promise<ScrapeResult> {
   console.log(`🔍 Starting advanced scraping for: ${link}`);
   
   try {
-    // Step 1: Basic HTTP scraping
+    // Step 1: Follow redirects (for short links, e.g., Amazon)
     const scrapeStartTime = Date.now();
-    const response = await axios.get(link, {
+    let finalUrl = link;
+    try {
+      const headResp = await axios.head(link, {
+        maxRedirects: 5,
+        timeout: 7000,
+        validateStatus: (status) => status >= 200 && status < 400,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+      });
+      if (headResp.request?.res?.responseUrl) {
+        finalUrl = headResp.request.res.responseUrl;
+      }
+    } catch (redirErr) {
+      // fallback: use original link if HEAD fails
+      finalUrl = link;
+    }
+
+    // Step 2: Basic HTTP scraping on final URL
+    const response = await axios.get(finalUrl, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       },
@@ -63,7 +82,7 @@ export async function scrapeAndGenerate(link: string): Promise<ScrapeResult> {
     });
 
     const $ = cheerio.load(response.data);
-    
+
     // Extract metadata
     const metadata: ScrapedMetadata = {
       title: $('title').text() || $('h1').first().text() || 'Product',
@@ -75,20 +94,20 @@ export async function scrapeAndGenerate(link: string): Promise<ScrapeResult> {
       availability: $('meta[property="product:availability"]').attr('content') || 'In Stock',
       rating: $('.rating, .stars, [class*="rating"]').first().text() || '',
       reviews: $('.reviews, .review-count, [class*="review"]').first().text() || '',
-      url: link
+      url: finalUrl
     };
 
     // Extract images
     $('img').each((_, el) => {
       const src = $(el).attr('src') || $(el).attr('data-src');
       if (src && !src.startsWith('data:') && src.length > 10) {
-        metadata.images.push(src.startsWith('http') ? src : new URL(src, link).href);
+        metadata.images.push(src.startsWith('http') ? src : new URL(src, finalUrl).href);
       }
     });
 
     const scrapeTime = Date.now() - scrapeStartTime;
 
-    // Step 2: Generate AI content
+    // Step 3: Generate AI content
     const aiStartTime = Date.now();
     let aiContent: AIContent | undefined;
 
