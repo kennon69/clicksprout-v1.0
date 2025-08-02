@@ -367,7 +367,7 @@ export default function AdvancedContentGenerator({
                   <AlertCircle className="w-5 h-5 text-yellow-500 flex-shrink-0" />
                   <div>
                     <h4 className="text-yellow-700 font-semibold">No product data could be extracted</h4>
-                    <p className="text-yellow-600 text-sm mt-1">We couldn't extract product details from this link. Please check the URL or try a different product page.</p>
+                    <p className="text-yellow-600 text-sm mt-1">We couldn&apos;t extract product details from this link. Please check the URL or try a different product page.</p>
                   </div>
                 </div>
               ) : (

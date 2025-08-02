@@ -221,7 +221,7 @@ export default function HomePage() {
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
-              ClickSprout's AI creates viral content that drives 
+              ClickSprout&apos;s AI creates viral content that drives 
               <span className="text-yellow-400 font-bold animate-pulse"> 10x more clicks</span>, 
               <span className="text-green-400 font-bold animate-pulse"> 5x higher conversions</span>, and 
               <span className="text-blue-400 font-bold animate-pulse"> unlimited growth</span>.
@@ -360,7 +360,7 @@ export default function HomePage() {
                   </div>
                   
                   <blockquote className="text-2xl lg:text-3xl text-gray-200 mb-8 italic text-center leading-relaxed">
-                    "{testimonial.text}"
+                    &ldquo;{testimonial.text}&rdquo;
                   </blockquote>
                   
                   <div className="flex flex-col lg:flex-row items-center justify-center gap-6">
@@ -412,7 +412,7 @@ export default function HomePage() {
             </h2>
             
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Join over 50,000 entrepreneurs who've unlocked viral growth with ClickSprout's AI. 
+              Join over 50,000 entrepreneurs who&apos;ve unlocked viral growth with ClickSprout&apos;s AI. 
               Start creating viral content in under 60 seconds.
             </p>
             
