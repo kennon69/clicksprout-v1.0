@@ -4,15 +4,15 @@
 let nodeCron: any = null
 
 // Lazy load node-cron only when needed on server
-export const getNodeCron = () => {
+export const getNodeCron = async () => {
   if (typeof window !== 'undefined') {
     throw new Error('node-cron should only be used on server-side')
   }
   
   if (!nodeCron) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      nodeCron = require('node-cron')
+      const nodeCronModule = await import('node-cron')
+      nodeCron = nodeCronModule.default
     } catch (error) {
       console.warn('node-cron not available:', error)
       return null
@@ -23,8 +23,8 @@ export const getNodeCron = () => {
 }
 
 // Safe cron scheduler that works server-side only
-export const scheduleCronJob = (pattern: string, callback: () => void) => {
-  const cron = getNodeCron()
+export const scheduleCronJob = async (pattern: string, callback: () => void) => {
+  const cron = await getNodeCron()
   if (cron) {
     return cron.schedule(pattern, callback)
   }
