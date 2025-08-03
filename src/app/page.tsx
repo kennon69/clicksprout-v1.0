@@ -340,7 +340,7 @@ export default function HomePage() {
               </span>
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Join thousands of entrepreneurs who've transformed their businesses with ClickSprout.
+              Join thousands of entrepreneurs who&apos;ve transformed their businesses with ClickSprout.
             </p>
           </div>
 

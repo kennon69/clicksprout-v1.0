@@ -11,7 +11,7 @@ export const getNodeCron = () => {
   
   if (!nodeCron) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       nodeCron = require('node-cron')
     } catch (error) {
       console.warn('node-cron not available:', error)

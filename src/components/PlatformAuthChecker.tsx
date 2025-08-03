@@ -303,10 +303,10 @@ export default function PlatformAuthChecker() {
         <h3 className="font-semibold text-blue-900 mb-2">Configuration Instructions</h3>
         <ol className="text-sm text-blue-800 space-y-1">
           <li>1. Copy <code className="bg-blue-100 px-1 rounded">.env.example</code> to <code className="bg-blue-100 px-1 rounded">.env.local</code></li>
-          <li>2. Click "Setup" for each platform to get your API credentials</li>
+          <li>2. Click &quot;Setup&quot; for each platform to get your API credentials</li>
           <li>3. Add the credentials to your <code className="bg-blue-100 px-1 rounded">.env.local</code> file</li>
           <li>4. Restart your development server</li>
-          <li>5. Use the "Test" button to verify authentication</li>
+          <li>5. Use the &quot;Test&quot; button to verify authentication</li>
         </ol>
       </div>
     </div>

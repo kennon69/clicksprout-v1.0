@@ -368,7 +368,7 @@ export default function AIContentAssistant({
                   <Bot className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-400">Ask me anything about your content!</p>
                   <p className="text-gray-500 text-sm mt-2">
-                    Try: "How can I make this more viral?" or "What's trending?"
+                    Try: &quot;How can I make this more viral?&quot; or &quot;What&apos;s trending?&quot;
                   </p>
                 </div>
               ) : (
