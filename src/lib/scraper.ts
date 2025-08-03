@@ -110,16 +110,16 @@ async function scrapeWithCheerio(url: string, config: any): Promise<ScrapingResu
 
     // Extract metadata using multiple selectors (OpenGraph, Twitter Cards, JSON-LD, etc.)
     const metadata: ProductMetadata = {
-      title: extractTitle($),
-      description: extractDescription($),
-      price: extractPrice($),
-      images: extractImages($, url),
-      videos: extractVideos($, url),
-      brand: extractBrand($),
-      category: extractCategory($),
-      availability: extractAvailability($),
-      rating: extractRating($),
-      reviews: extractReviewCount($),
+      title: extractTitle($ as any),
+      description: extractDescription($ as any),
+      price: extractPrice($ as any),
+      images: extractImages($ as any, url),
+      videos: extractVideos($ as any, url),
+      brand: extractBrand($ as any),
+      category: extractCategory($ as any),
+      availability: extractAvailability($ as any),
+      rating: extractRating($ as any),
+      reviews: extractReviewCount($ as any),
       url,
       scrapedAt: new Date()
     }
@@ -304,7 +304,7 @@ function extractImages($: cheerio.CheerioAPI, baseUrl: string): string[] {
   })
 
   // Remove duplicates and limit to 10
-  return [...new Set(images)].slice(0, 10)
+  return Array.from(new Set(images)).slice(0, 10)
 }
 
 function extractVideos($: cheerio.CheerioAPI, baseUrl: string): string[] {
@@ -327,7 +327,7 @@ function extractVideos($: cheerio.CheerioAPI, baseUrl: string): string[] {
     })
   })
 
-  return [...new Set(videos)].slice(0, 5)
+  return Array.from(new Set(videos)).slice(0, 5)
 }
 
 function extractBrand($: cheerio.CheerioAPI): string | undefined {

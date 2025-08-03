@@ -35,9 +35,9 @@ interface ProcessResponse {
   success: boolean
   data?: {
     productData: ProductMetadata
-    generatedContent: Record<Platform, any>
-    postResults?: Record<Platform, any>
-    trackingIds?: Record<Platform, string>
+    generatedContent: Partial<Record<Platform, any>>
+    postResults?: Partial<Record<Platform, any>>
+    trackingIds?: Partial<Record<Platform, string>>
   }
   error?: string
   processingTime: number

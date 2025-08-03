@@ -1,42 +1,25 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import { 
+  Sparkles, 
+  Flame, 
+  ArrowUp, 
+  Rocket, 
   ArrowRight, 
-  Zap, 
+  Play, 
+  Bot, 
+  Globe, 
   BarChart3, 
-  Share2, 
-  Target,
-  Sparkles,
-  TrendingUp,
-  Play,
-  Star,
-  Users,
-  CheckCircle,
-  Rocket,
-  Brain,
-  Eye,
-  Heart,
-  Lightbulb,
-  MousePointer,
-  BarChart2,
-  Globe,
-  DollarSign,
-  Clock,
-  Trophy,
-  ChevronRight,
-  ArrowUp,
-  Flame,
-  Megaphone,
-  Layers,
-  Wand2,
-  Bot,
-  Smartphone,
-  Monitor,
-  Tablet
+  Wand2, 
+  Star, 
+  TrendingUp, 
+  Megaphone, 
+  Zap, 
+  CheckCircle 
 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export default function HomePage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0)

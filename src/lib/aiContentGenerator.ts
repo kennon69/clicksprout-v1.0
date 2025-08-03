@@ -372,8 +372,8 @@ function getFallbackTemplates(platform: string, contentType: string, tone: strin
     // Add more platform-specific templates...
   }
 
-  // Return appropriate templates or default
-  return templates[platform as keyof typeof templates]?.[contentType as keyof typeof templates.reddit] || [
+  // Default fallback template
+  const defaultTemplate = [
     {
       title: "{PRODUCT} - Amazing Discovery!",
       content: "Just discovered {PRODUCT}. {DESCRIPTION}",
@@ -381,6 +381,16 @@ function getFallbackTemplates(platform: string, contentType: string, tone: strin
       callToAction: "Learn more: {URL}"
     }
   ]
+
+  // Get platform templates
+  const platformTemplates = templates[platform as keyof typeof templates]
+  if (!platformTemplates) {
+    return defaultTemplate
+  }
+
+  // Get content type templates with proper type checking
+  const contentTemplates = (platformTemplates as any)[contentType]
+  return contentTemplates || defaultTemplate
 }
 
 /**
