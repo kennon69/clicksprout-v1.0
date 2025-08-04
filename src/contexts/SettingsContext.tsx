@@ -142,9 +142,17 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const [originalSettings, setOriginalSettings] = useState<UserSettings>(defaultSettings)
   const [isLoading, setIsLoading] = useState(false)
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
+  const [isClient, setIsClient] = useState(false)
+
+  // Check if we're on the client side
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   // Load settings from localStorage on mount
   useEffect(() => {
+    if (!isClient) return
+    
     const loadSettings = () => {
       try {
         const savedSettings = localStorage.getItem('clicksprout_settings')
@@ -171,7 +179,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     }
     
     loadSettings()
-  }, [])
+  }, [isClient])
 
   // Track changes
   useEffect(() => {
@@ -465,6 +473,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 export function useSettings() {
   const context = useContext(SettingsContext)
   if (context === undefined) {
+    console.error('useSettings called outside of SettingsProvider. Make sure the component is wrapped with SettingsProvider.')
     throw new Error('useSettings must be used within a SettingsProvider')
   }
   return context
